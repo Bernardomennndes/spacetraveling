@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { getPrismicClient } from '../../services/prismic';
@@ -26,20 +27,33 @@ interface PostProps {
   post: Post;
 }
 
-// export default function Post() {
-//   // TODO
-// }
+export default function Post({ post } : PostProps) {
+  return(
+    <>
 
-// export const getStaticPaths = async () => {
-//   const prismic = getPrismicClient();
-//   const posts = await prismic.query(TODO);
+    </>
+  );
+}
 
-//   // TODO
-// };
+export const getStaticPaths = async () => {
+  const prismic = getPrismicClient();
 
-// export const getStaticProps = async context => {
-//   const prismic = getPrismicClient();
-//   const response = await prismic.getByUID(TODO);
+  // Buscar todos os posts
+  const posts = await prismic.query();
 
-//   // TODO
-// };
+  // TODO
+};
+
+export const getStaticProps = async context => {
+  const prismic = getPrismicClient();
+
+  // Buscar infos do post específico
+  const response = await prismic.getByUID();
+
+  return {
+    props: {
+
+    },
+    revalidate: 0
+  }
+};

@@ -1,7 +1,51 @@
+:root {
+  --pink-400: #FF57B2;
+
+
+  --gray-050: #f8f8f8;
+  --gray-200: #D7D7D7;
+  --gray-400: #BBBBBB;
+  --gray-800: #1A1D23;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-// TODO
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--gray-800);
+  -webkit-font-smoothing: antialiased;
+}
+
+body, input, textarea, button {
+  font-family: inherit;
+  font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6, strong {
+  color: var(--gray-050);
+  font-weight: bold;
+}
+
+button {
+  cursor: pointer;
+}
+
+[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
