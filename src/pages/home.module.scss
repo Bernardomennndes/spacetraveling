@@ -1,59 +1,27 @@
 .postsContainer {
   max-width: 700px;
-  margin: 0 auto;
+  margin: 0 auto 8rem;
 
   .postContent {
-    padding-left: .5rem;
+    padding-left: 0.5rem;
 
     & + .postContent {
       margin-top: 4.8rem;
     }
 
-    h1 {
-      width: 100%;
-
-      font-size: 2.8rem;
-      font-weight: bold;
-      color: var(--gray-050);
-      line-height: 3.4rem;
+    a {
+      text-decoration: none;
     }
 
-    h2 {
-      font-size: 1.8rem;
-      font-weight: normal;
-      color: var(--gray-200);
+    a:hover h1 {
+      color: var(--pink-400);
     }
-
-    .postInfo {
-      display: flex;
-
-      color: var(--gray-400);
-
-      margin-top: 2.4rem;
-
-      div {
-        display: flex;
-        align-items: center;
-
-        p {
-          margin-left: 0.8rem;
-        }
-      }
-
-      div + div {
-        margin-left: 2.6rem;
-      }
-    }
-  }
-
-  .postContent + .postContent {
-
   }
 
   .loadPostsButton {
     border: 0;
-    padding-left: .5rem;
-    margin: 6.4rem 0 8rem;
+    padding-left: 0.5rem;
+    margin-top: 6.4rem;
 
     background: transparent;
 
