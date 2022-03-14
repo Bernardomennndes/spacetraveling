@@ -1,1 +1,29 @@
-// TODO
+.bannerImage {
+  width: 100%;
+  display: block;
+}
+
+.articleContainer {
+  max-width: 72rem;
+  margin: 8rem auto;
+
+  .articleContent {
+    padding-right: .5rem;
+    font-size: 1.8rem;
+    font-weight: normal;
+    color: var(--gray-200);
+
+    h2 {
+      font-size: 3.6rem;
+      font-weight: bold;
+      color: var(--gray-050);
+      margin: 5rem 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--pink-400);
+    }
+
+  }
+}
