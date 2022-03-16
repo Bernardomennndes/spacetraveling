@@ -18,6 +18,7 @@ import { UterrancesComments } from '../../components/UterrancesComments';
 
 interface Post {
   first_publication_date: string | null;
+  last_publication_date: string | null;
   data: {
     title: string;
     banner: {
@@ -79,7 +80,13 @@ export default function Post({ preview, post }: PostProps): JSX.Element {
                 <p>{readTime} min</p>
               </span>
             </div>
-            <p className={styles.editedArticle}>* editado em 19 mar 2021, às 15:49</p>
+            {post.last_publication_date && (
+              <p className={styles.editedArticle}>* editado em {format(new Date(post.last_publication_date), 'dd MMM yyyy', {
+                locale: ptBR,
+              })}, às {format(new Date(post.last_publication_date), 'kk:mm', {
+                locale: ptBR,
+              })}</p>
+            )}
           </div>
           <div className={styles.articleContent}>
             {post.data.content.map(postContent => {
