@@ -6,12 +6,15 @@ import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Header from '../../components/Header';
 
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
+import { PreviewButton } from '../../components/PreviewButton';
+import { UterrancesComments } from '../../components/UterrancesComments';
 
 interface Post {
   first_publication_date: string | null;
@@ -75,6 +78,7 @@ export default function Post({ post }: PostProps): JSX.Element {
                 <p>{readTime} min</p>
               </span>
             </div>
+            <p className={styles.editedArticle}>* editado em 19 mar 2021, às 15:49</p>
           </div>
           <div className={styles.articleContent}>
             {post.data.content.map(postContent => {
@@ -82,6 +86,7 @@ export default function Post({ post }: PostProps): JSX.Element {
                 <div key={postContent.heading}>
                   <h2>{postContent.heading}</h2>
                   <div
+                    // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{
                       __html: RichText.asHtml(postContent.body),
                     }}
@@ -91,6 +96,24 @@ export default function Post({ post }: PostProps): JSX.Element {
             })}
           </div>
         </article>
+        <section className={`${commonStyles.maxComponentWidth} ${styles.offArticleContainer}`}>
+          <div className={styles.linksContainer}>
+            <div>
+              <h2>Como utilizar Hooks</h2>
+              <Link href="/">
+                <a>Previous post</a>
+              </Link>
+            </div>
+            <div>
+              <h2>Criando um app CRA do Zero</h2>
+              <Link href="/">
+                <a>Next post</a>
+              </Link>
+            </div>
+          </div>
+          <UterrancesComments />
+          <PreviewButton />
+        </section>
       </main>
     </>
   );
