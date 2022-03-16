@@ -8,7 +8,7 @@
   margin: 8rem auto;
 
   .articleContent {
-    padding-right: .5rem;
+    padding-right: 0.5rem;
     font-size: 1.8rem;
     font-weight: normal;
     color: var(--gray-200);
@@ -24,6 +24,35 @@
       text-decoration: none;
       color: var(--pink-400);
     }
+  }
+}
+
+.offArticleContainer {
+  padding-top: 4.8rem;
+  border: 0;
+  border-top: 1px solid var(--gray-400);
+
+  .linksContainer {
+    display: flex;
+    justify-content: space-between;
+
+    div:nth-child(2) {
+      text-align: right;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+
+    a {
+      color: var(--pink-400);
+      font-size: 1.6rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
 
   }
+
+
 }

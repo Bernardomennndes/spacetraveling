@@ -1,3 +1,9 @@
+.maxComponentWidth {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .postContent {
   padding-left: 0.5rem;
 
@@ -21,6 +27,7 @@
   .postInfo {
     display: flex;
 
+    font-size: 1.4rem;
     color: var(--gray-400);
 
     margin-top: 2.4rem;

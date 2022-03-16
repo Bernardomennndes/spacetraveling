@@ -1,31 +1,26 @@
-.postsContainer {
-  max-width: 700px;
-  margin: 0 auto 8rem;
+.postContent {
+  padding-left: 0.5rem;
 
-  .postContent {
-    padding-left: 0.5rem;
-
-    & + .postContent {
-      margin-top: 4.8rem;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    a:hover h1 {
-      color: var(--pink-400);
-    }
+  & + .postContent {
+    margin-top: 4.8rem;
   }
 
-  .loadPostsButton {
-    border: 0;
-    padding-left: 0.5rem;
-    margin-top: 6.4rem;
+  a {
+    text-decoration: none;
+  }
 
-    background: transparent;
-
-    font-size: 1.8rem;
+  a:hover h1 {
     color: var(--pink-400);
   }
+}
+
+.loadPostsButton {
+  border: 0;
+  padding-left: 0.5rem;
+  margin-top: 6.4rem;
+
+  background: transparent;
+
+  font-size: 1.8rem;
+  color: var(--pink-400);
 }

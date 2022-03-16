@@ -12,6 +12,7 @@ import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+import { PreviewButton } from '../components/PreviewButton';
 
 interface Post {
   uid?: string;
@@ -38,7 +39,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   );
   const [postsNextPage, setPostsNextPage] = useState(postsPagination.next_page);
 
-  const handleRefreshPostsListing = async () => {
+  const handleRefreshPostsListing = async (): Promise<void> => {
     const response = fetch(postsPagination.next_page).then(fetchResponse =>
       fetchResponse.json()
     );
@@ -73,7 +74,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     <>
       <Header />
 
-      <section className={styles.postsContainer}>
+      <section className={commonStyles.maxComponentWidth}>
         {postsListing.map(post => {
           return (
             <div
@@ -120,6 +121,8 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           </button>
         )}
       </section>
+
+      <PreviewButton />
     </>
   );
 }
