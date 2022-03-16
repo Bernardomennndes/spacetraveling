@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+import { useEffect, useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { RichText } from 'prismic-dom';
 import Prismic from '@prismicio/client';
@@ -14,11 +14,12 @@ import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import { PreviewButton } from '../../components/PreviewButton';
-import { UterrancesComments } from '../../components/UterrancesComments';
+import UtterancesComments from '../../components/UterrancesComments';
 
 interface Post {
   first_publication_date: string | null;
   last_publication_date: string | null;
+  uid: string;
   data: {
     title: string;
     banner: {
@@ -37,14 +38,20 @@ interface Post {
 interface PostProps {
   preview: boolean;
   post: Post;
+  nextPost: Post | null;
+  prevPost: Post | null;
 }
 
-export default function Post({ preview, post }: PostProps): JSX.Element {
-
+export default function Post({
+  preview,
+  post,
+  nextPost,
+  prevPost,
+}: PostProps): JSX.Element {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <p>Carregando...</p>
+    return <p>Carregando...</p>;
   }
 
   let contentTextBuilder = '';
@@ -60,16 +67,26 @@ export default function Post({ preview, post }: PostProps): JSX.Element {
     <>
       <main>
         <Header />
-        <img className={styles.bannerImage} src={post.data.banner.url} alt="banner" />
+        <img
+          className={styles.bannerImage}
+          src={post.data.banner.url}
+          alt="banner"
+        />
         <article className={styles.articleContainer}>
           <div className={commonStyles.postContent}>
             <h1>{post.data.title}</h1>
             <div className={commonStyles.postInfo}>
               <time>
                 <FiCalendar />
-                <p>{format(new Date(post.first_publication_date), 'dd MMM yyyy', {
-                  locale: ptBR,
-                })}</p>
+                <p>
+                  {format(
+                    new Date(post.first_publication_date),
+                    'dd MMM yyyy',
+                    {
+                      locale: ptBR,
+                    }
+                  )}
+                </p>
               </time>
               <span>
                 <FiUser />
@@ -81,11 +98,16 @@ export default function Post({ preview, post }: PostProps): JSX.Element {
               </span>
             </div>
             {post.last_publication_date && (
-              <p className={styles.editedArticle}>* editado em {format(new Date(post.last_publication_date), 'dd MMM yyyy', {
-                locale: ptBR,
-              })}, às {format(new Date(post.last_publication_date), 'kk:mm', {
-                locale: ptBR,
-              })}</p>
+              <p className={styles.editedArticle}>
+                * editado em{' '}
+                {format(new Date(post.last_publication_date), 'dd MMM yyyy', {
+                  locale: ptBR,
+                })}
+                , às{' '}
+                {format(new Date(post.last_publication_date), 'kk:mm', {
+                  locale: ptBR,
+                })}
+              </p>
             )}
           </div>
           <div className={styles.articleContent}>
@@ -104,25 +126,30 @@ export default function Post({ preview, post }: PostProps): JSX.Element {
             })}
           </div>
         </article>
-        <section className={`${commonStyles.maxComponentWidth} ${styles.offArticleContainer}`}>
+        <section
+          className={`${commonStyles.maxComponentWidth} ${styles.offArticleContainer}`}
+        >
           <div className={styles.linksContainer}>
-            <div>
-              <h2>Como utilizar Hooks</h2>
-              <Link href="/">
-                <a>Previous post</a>
-              </Link>
-            </div>
-            <div>
-              <h2>Criando um app CRA do Zero</h2>
-              <Link href="/">
-                <a>Next post</a>
-              </Link>
-            </div>
+            {prevPost && (
+              <div>
+                <h2>{prevPost.data.title}</h2>
+                <Link href={`/post/${prevPost.uid}`}>
+                  <a>Previous post</a>
+                </Link>
+              </div>
+            )}
+
+            {nextPost && (
+              <div className={styles.nextPostLink}>
+                <h2>{nextPost.data.title}</h2>
+                <Link href={`/post/${nextPost.uid}`}>
+                  <a>Next post</a>
+                </Link>
+              </div>
+            )}
           </div>
-          <UterrancesComments />
-          {preview && (
-            <PreviewButton />
-          )}
+          <UtterancesComments />
+          {preview && <PreviewButton />}
         </section>
       </main>
     </>
@@ -153,7 +180,6 @@ export const getStaticProps: GetStaticProps = async ({
   preview = false,
   previewData,
 }) => {
-
   const { slug } = params;
   const prismic = getPrismicClient();
 
@@ -161,11 +187,31 @@ export const getStaticProps: GetStaticProps = async ({
     ref: previewData?.ref ?? null,
   });
 
+  const nextPost = await prismic.query(
+    [Prismic.predicates.at('document.type', 'posts')],
+    {
+      pageSize: 1,
+      orderings: '[document.first_publication_date]',
+      after: response.id,
+    }
+  );
+
+  const prevPost = await prismic.query(
+    [Prismic.predicates.at('document.type', 'posts')],
+    {
+      pageSize: 1,
+      orderings: '[document.first_publication_date desc]',
+      after: response.id,
+    }
+  );
+
   return {
     props: {
       preview,
       post: response,
+      nextPost: nextPost.results[0] ?? null,
+      prevPost: prevPost.results[0] ?? null,
     },
-    revalidate: 60 * 10 // 24 hours
-  }
+    revalidate: 60 * 10, // 10 minutes
+  };
 };

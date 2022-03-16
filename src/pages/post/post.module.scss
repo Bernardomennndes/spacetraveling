@@ -37,13 +37,17 @@
 .offArticleContainer {
   padding-top: 4.8rem;
   border: 0;
-  border-top: 1px solid var(--gray-400);
+  border-top: 1px solid rgba(215, 215, 215, 0.1);
 
   .linksContainer {
     display: flex;
     justify-content: space-between;
 
-    div:nth-child(2) {
+    div {
+      width: 100%;
+    }
+
+    .nextPostLink {
       text-align: right;
     }
 
